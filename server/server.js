@@ -10,6 +10,7 @@ var port = process.env.PORT || 3000;
 var server = http.createServer(app);
 var io = socketIO(server);
 
+
 io.on('connection',(socket)=>{
   console.log('New User connected');
 
@@ -25,13 +26,14 @@ io.on('connection',(socket)=>{
     createdat:new Date().getTime()
   });
 
-socket.on('createmsg',(msg)=>{
+socket.on('createmsg',(msg,callback)=>{
   console.log('Create message',msg);
   io.emit('newmsg',{
     from:msg.from,
     text:msg.text,
     createdat:new Date().getTime()
   });
+  callback('This is from server');
   // socket.broadcast.emit('newmsg',{
   //   from:msg.from,
   //   text:msg.text,

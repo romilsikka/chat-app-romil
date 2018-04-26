@@ -2,7 +2,7 @@ const express = require('express');
 const path = require('path');
 const socketIO = require('socket.io');
 const http = require('http');
-
+const {generatemessage,generatelocation} = require('./utils/message');
 var publicpath = path.join(__dirname,'../public');
 var app = express();
 var port = process.env.PORT || 3000;
@@ -14,17 +14,9 @@ var io = socketIO(server);
 io.on('connection',(socket)=>{
   console.log('New User connected');
 
-  socket.emit('newmsg',{
-    from:'Admin',
-    text:'Welcome To the Chat App',
-    createdat:new Date().getTime()
-  });
+  socket.emit('newmsg',generatemessage('Admin','Welcome to chat App'));
 
-  socket.broadcast.emit('newmsg',{
-    from:'Admin',
-    text:'New User Has joined',
-    createdat:new Date().getTime()
-  });
+  socket.broadcast.emit('newmsg',generatemessage('Admin','New User has joined'));
 
 socket.on('createmsg',(msg,callback)=>{
   console.log('Create message',msg);
@@ -36,10 +28,7 @@ socket.on('createmsg',(msg,callback)=>{
   callback('This is from server');
 });
 socket.on('newlocation',function(coords){
-  io.emit('newmsg',{
-    from:'Admin',
-    text:`${coords.lat}, ${coords.lon}`
-  });
+  io.emit('newmsglocation',generatelocation('Admin',coords.lat,coords.lon));
 });
   socket.on('disconnect',()=>{
     console.log('Disconnected From Client');

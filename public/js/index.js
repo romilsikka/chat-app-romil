@@ -14,6 +14,17 @@ li.text(`${msg.from}:${msg.text}`);
 jQuery('#messages').append(li);
 });
 
+socket.on('newmsglocation',function(loc){
+var li = jQuery('<li></li>');
+  var a = jQuery('<a target="_blank">My Current Location</a>');
+  li.text(`${loc.from}:`);
+  a.attr('href',loc.url);
+  li.append(a);
+  jQuery('#messages').append(li);
+});
+
+
+
 
 jQuery('#form-chat').on('submit',function(e){
   e.preventDefault();

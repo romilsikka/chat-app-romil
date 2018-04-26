@@ -42,13 +42,16 @@ locationq.on('click',function(){
   if(!navigator.geolocation){
     return alert('Geolocation not supported');
   }
+  locationq.attr('disabled','disabled').text('Sending Location...');
 
     navigator.geolocation.getCurrentPosition(function(position){
+      locationq.removeAttr('disabled').text('Send Location');
       socket.emit('newlocation',{
         lat:position.coords.latitude,
         lon:position.coords.longitude
       });
     },function(){
+      locationq.removeAttr('disabled').text('Send Location');
       alert('Unable to fetch location');
     });
 

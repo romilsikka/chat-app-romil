@@ -34,11 +34,12 @@ socket.on('createmsg',(msg,callback)=>{
     createdat:new Date().getTime()
   });
   callback('This is from server');
-  // socket.broadcast.emit('newmsg',{
-  //   from:msg.from,
-  //   text:msg.text,
-  //   createdat:new Date().getTime()
-  // });
+});
+socket.on('newlocation',function(coords){
+  io.emit('newmsg',{
+    from:'Admin',
+    text:`${coords.lat}, ${coords.lon}`
+  });
 });
   socket.on('disconnect',()=>{
     console.log('Disconnected From Client');

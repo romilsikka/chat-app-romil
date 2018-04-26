@@ -23,3 +23,20 @@ jQuery('#form-chat').on('submit',function(e){
   },function (){
   });
 });
+
+var locationq = jQuery('#location');
+locationq.on('click',function(){
+  if(!navigator.geolocation){
+    return alert('Geolocation not supported');
+  }
+
+    navigator.geolocation.getCurrentPosition(function(position){
+      socket.emit('newlocation',{
+        lat:position.coords.latitude,
+        lon:position.coords.longitude
+      });
+    },function(){
+      alert('Unable to fetch location');
+    });
+
+});

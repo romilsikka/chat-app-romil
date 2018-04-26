@@ -28,10 +28,12 @@ var li = jQuery('<li></li>');
 
 jQuery('#form-chat').on('submit',function(e){
   e.preventDefault();
+  var textboxmsg = jQuery('[name=msg]');
   socket.emit('createmsg',{
     from:'user',
-    text:jQuery('[name=msg]').val()
+    text:textboxmsg.val()
   },function (){
+    textboxmsg.val('');
   });
 });
 
